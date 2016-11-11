@@ -1,7 +1,9 @@
-#!/usr/bin/python
+#!/usr/binhon
 
 import HTMLParser
 import json
+from os.path import normpath, dirname, abspath, join, exists
+import os
 import pip
 import pycurl
 import re
@@ -18,19 +20,19 @@ def setup():
             print '*** Package "', package, '" not found, installing...'
             pip.main(['install', '--user', package])     
 
-def downloadTrack(url, filename, failedTracks):
-    with open(filename, 'wb') as f:
+def downloadTrack(url, filePath, failedTracks):
+    with open(filePath, 'wb') as f:
         c = pycurl.Curl()
         c.setopt(c.URL, url)
         c.setopt(c.WRITEDATA, f)
-        print '*** Downloading: "', filename, '" from URL: ', url
+        print '*** Downloading: "', filePath, '" from URL: ', url
         try:
             c.perform()
         except pycurl.error, error:
             errno, errstr = error
             print '!!! ERROR occurred: ', errstr
             print '!!! Adding "', failanme, '" to re-download task'
-            failedTracks.append((url, filename))
+            failedTracks.append((url, filePath))
         else:
             c.close()
 
@@ -41,7 +43,10 @@ def downloadBook(eBookUrl, failedTracks):
     html = response.read()
     pattern = re.compile('<h1>(.*?)</h1>', re.S)
     bookName = HTMLParser.HTMLParser().unescape(re.findall(pattern, html)[0].decode('utf-8')).replace(':', '_')
-    print bookName
+    print '*** Downloading book <<', bookName, '>>'
+    bookPath = normpath(join(dirname(abspath(__file__)), bookName))
+    if not exists(bookPath):
+        os.makedirs(bookPath)
     while True:
         response = urllib2.urlopen(eBookUrl + '?page=%d' % pageNum)
         html = response.read()
@@ -57,14 +62,13 @@ def downloadBook(eBookUrl, failedTracks):
         track = tracks.pop()
         resp = requests.get(url='http://www.ximalaya.com/tracks/' + track[0].split('sound/')[-1] + '.json')
         data = json.loads(resp.text)
-        filename = bookName + '_' + str(index).zfill(indexLength) + '_'
-        filename += HTMLParser.HTMLParser().unescape(track[1].decode('utf-8')).replace(':', '_')
-        filename += '.' + data['play_path'].split('.')[-1]
+        fileName = bookName + '_' + str(index).zfill(indexLength) + '_'
+        fileName += HTMLParser.HTMLParser().unescape(track[1].decode('utf-8')).replace(':', '_')
+        fileName += '.' + data['play_path'].split('.')[-1]
         url = data['play_path']
-        downloadTrack(url, filename, failedTracks)
+        filePath = normpath(join(bookPath, fileName))
+        downloadTrack(url, filePath, failedTracks)
         index -= 1
-        break
-
 
 def main(argv):
     setup()
@@ -75,8 +79,8 @@ def main(argv):
     trialCounter = 10
     while trialCounter:
         newFailedTracks = []
-        for url, filename in failedTracks:
-            downloadTrack(url, filename)
+        for url, filePath in failedTracks:
+            downloadTrack(url, filePath)
         failedTracks = newFailedTracks
         trialCounter -= 1
     if failedTracks:
