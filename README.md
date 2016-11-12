@@ -26,7 +26,6 @@ This project is licensed under the terms of the [MIT license](LICENSE).
 ## TODO
 - Download to tmp and use ffmpy to convert
   - make sure what format iTune audiobook is using
-- Make classes
 - Multiprocess
-- Show progress
-- logging
+- GUI
+  - Show progress
