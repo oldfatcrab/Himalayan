@@ -4,6 +4,10 @@
 
 Audiobook downloader for Himalayan website
 
+## Prerequisite
+
+- ffmpeg installed
+
 ## How to use?
 
 ```
@@ -24,8 +28,6 @@ This project is licensed under the terms of the [MIT license](LICENSE).
 - Himalayan website has the copyright to the data which this software downloads, please use them only as personal non-commercial purpose and delete 24 hours after download.
 
 ## TODO
-- Download to tmp and use ffmpy to convert
-  - make sure what format iTune audiobook is using
 - Multiprocess
 - GUI
   - Show progress

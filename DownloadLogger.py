@@ -1,5 +1,5 @@
-from os.path import normpath, join
 import logging
+from os.path import normpath, join
 import tempfile
 
 class DownloadLogger:
