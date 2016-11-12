@@ -1,7 +1,7 @@
 from HTMLParser import HTMLParser
 import json
 from os import makedirs
-from os.path import exists, join, normpath
+from os.path import abspath, dirname, exists, join, normpath
 import pycurl
 import re
 import requests
@@ -30,8 +30,11 @@ class HimalayanDownloader:
 
     def download(self):
         self._logger.info('Downloading book <<' + self._bookName + '>>')
-        if not exists(self._bookName):
-            makedirs(self._bookName)
+        currPath = join(dirname(abspath(__file__)), '..')
+        bookPath = normpath(join(currPath, self._bookName))
+        self._logger.info('Files can be found in: ' + bookPath)
+        if not exists(bookPath):
+            makedirs(bookPath)
         self.fetchTracks()
         while self._trial < self._maxTrial:
             self._failedTracks = []

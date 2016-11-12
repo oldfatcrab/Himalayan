@@ -5,7 +5,7 @@ from os import remove
 class M4AConverter:
     def __init__(self, logger):
         self._logger = logger
-        self._currPath = dirname(abspath(__file__))
+        self._currPath = join(dirname(abspath(__file__)), '..')
 
     def convert(self, inputFilePath, bookName, fileName):
         bookPath = normpath(join(self._currPath, bookName))
@@ -45,7 +45,7 @@ class M4AConverter:
         ff = ffmpy.FFmpeg(
             inputs = {inputFilePath: None},
             outputs = {outputFilePath: outputOptions},
-            global_options = '-loglevel quiet'
+            global_options = '-y -loglevel quiet'
         )
         try:
             ff.run()

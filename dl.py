@@ -1,11 +1,11 @@
 #!/usr/binhon
 
-import setup
 import sys
 
-from DownloadLogger import DownloadLogger
-from HimalayanDownloader import HimalayanDownloader
-from M4AConverter import M4AConverter
+from lib.DownloadLogger import DownloadLogger
+from lib.HimalayanDownloader import HimalayanDownloader
+from lib.M4AConverter import M4AConverter
+import lib.setup
 
 def main(argv):
     logger = DownloadLogger()
