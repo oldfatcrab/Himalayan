@@ -2,7 +2,8 @@
 
 ## Description
 
-Audiobook downloader for Himalayan website
+- Download Audiobook Tracks downloader from Himalayan website
+- Convert tracks to Apple Audiobook format (m4a)
 
 ## Prerequisite
 
@@ -28,6 +29,9 @@ This project is licensed under the terms of the [MIT license](LICENSE).
 - Himalayan website has the copyright to the data which this software downloads, please use them only as personal non-commercial purpose and delete 24 hours after download.
 
 ## TODO
-- Multiprocess
+- Multithreading
+- More input error detection
+- Log analyzing
+  - error recovery
 - GUI
   - Show progress

@@ -45,7 +45,7 @@ class M4AConverter:
         ff = ffmpy.FFmpeg(
             inputs = {inputFilePath: None},
             outputs = {outputFilePath: outputOptions},
-            global_options = '-y -c quiet'
+            global_options = '-y -v quiet'
         )
         try:
             ff.run()

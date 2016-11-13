@@ -65,7 +65,7 @@ class HimalayanDownloader:
             except pycurl.error as e:
                 self._logger.error('ERROR occurred: ' + e.message)
                 self._logger.debug('Adding "' + fileName + '" to re-download tasks')
-                self._failedTracks.append((url, fileName))
+                self._failedTracksQueue.put((url, fileName))
             else:
                 c.close()
                 self._completedQueue.put((tmpFilePath, self._bookName, fileName))
