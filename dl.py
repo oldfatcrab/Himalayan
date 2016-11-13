@@ -14,8 +14,9 @@ def main(argv):
     completedTracks = []
     for eBookUrl in argv:
         downloader = HimalayanDownloader(eBookUrl, logger)
-        completedTracks = downloader.download()
-    for completedTrack in completedTracks:
+        completedQueue = downloader.download()
+    while not completedQueue.empty():
+        completedTrack = completedQueue.get()
         converter.convert(completedTrack[0], completedTrack[1], completedTrack[2])
 
 if __name__ == "__main__":
